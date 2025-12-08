@@ -177,11 +177,13 @@ void patient_view_all() {
         ui_pause();
         return;
     }
-    
+    int count = 0;
     ui_clear_screen();
     ui_print_banner();
     for (int i = 0; i < patient_count; i++) {
-        ui_print_patient(patients[i], i);
+        if (patients[i].is_active) {
+            ui_print_patient(patients[i], count++);
+        }
     }
     ui_pause();
 }
@@ -195,19 +197,19 @@ void patient_view_one() {
         ui_pause();
         return;
     }
-    
+    int count = 0;
     for (int i = 0; i < patient_count; i++) {
         ui_clear_screen();
         ui_print_banner();
-        ui_print_patient(patients[i], i);
-        ui_pause();
+        if (patients[i].is_active) {
+            ui_print_patient(patients[i], count++);
+            ui_pause();
+        }
     }
 }
 
 void patient_view() {
-    ui_clear_screen();
-    ui_print_banner();
-
+    
     const char* menu_items[] = 
     {
         "All at once",
@@ -215,25 +217,30 @@ void patient_view() {
         "Back to Patient Menu",
         ">> "
     };
-    ui_print_menu("View Patients", menu_items, 4, UI_SIZE);
     
-    int choice = utils_get_int();
-    switch (choice) {
-        case 1:
-            patient_view_all();
-            break;
-        case 2:
-            patient_view_one();
-            break;
-        case 3:
-            ui_print_info("Returning to receptionist menu...");
-            ui_pause();
-            return;
-        default:
-            ui_print_error("Invalid choice!");
-            ui_pause();
-            break;
-    }
+    int choice;
+    do {
+        ui_clear_screen();
+        ui_print_banner();
+        ui_print_menu("View Patients", menu_items, 4, UI_SIZE);
+        choice = utils_get_int();
+        switch (choice) {
+            case 1:
+                patient_view_all();
+                break;
+            case 2:
+                patient_view_one();
+                break;
+            case 3:
+                ui_print_info("Returning to receptionist menu...");
+                ui_pause();
+                return;
+            default:
+                ui_print_error("Invalid choice!");
+                ui_pause();
+                break;
+        }
+    } while (choice != 3);
 }
 
 void patient_search_by_id(void) {
@@ -485,6 +492,7 @@ void patient_update_blood_group(const char* menu_items[], int index) {
         ui_pause();
         return;
     }
+    utils_str_to_upper(blood_group);
     patients[index].blood_group[0] = '\0';
     strncpy(patients[index].blood_group, blood_group, BLOOD_SIZE);
 }
