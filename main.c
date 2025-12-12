@@ -12,12 +12,6 @@
 #include "include/doctor_portal.h"
 #include "include/auth.h"
 
-#define VERSION "1.0.0"
-
-void print_help(const char* program_name);
-void print_version(void);
-void ensure_data_dir(void);
-
 int main(int argc, char* argv[]) {
     if (argc > 1) {
         if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "--help") == 0) {
@@ -46,8 +40,8 @@ int main(int argc, char* argv[]) {
             return 0;
         }
         else {
-            ui_print_error("Invalid option!");
-            ui_pause();
+            ui_print_error("Invalid option!\n");
+            print_help(argv[0]);
             return 1;
         }
     }
@@ -87,34 +81,4 @@ int main(int argc, char* argv[]) {
     } while (choice != 3);
     
     return 0;
-}
-
-void print_help(const char* program_name) {
-    printf("\n" BOLD BRIGHT_RED "Healthcare Management System" RESET BOLD SOFT_GREEN " v%s" RESET "\n\n", VERSION);
-    printf(SOFT_YELLOW "Usage:" RESET " %s [option] or ./hms.exe [option] for windows\n", program_name);
-    printf(SOFT_YELLOW "Usage:" RESET " ./hms.out [option] for linux\n\n");
-    printf(SOFT_YELLOW "Options:" RESET "\n");
-    printf("  -h, --help      Show this help message\n");
-    printf("  -v, --version   Show version information\n");
-    printf("  -a, --about     Show about information\n");
-    printf("  -l, --login     Go directly to login menu\n");
-    printf("\n");
-    printf("If no options are provided, the interactive menu will start.\n\n");
-}
-
-void print_version(void) {
-    printf("\n" BOLD "Healthcare Management System" RESET "\n");
-    printf("Version: " SOFT_GREEN "%s" RESET "\n", VERSION);
-    printf("Built with C\n\n");
-}
-
-void ensure_data_dir(void) {
-
-    FILE* file = fopen(PATIENTS_FILE, "rb");
-    if (file == NULL) {
-        system("mkdir data 2>nul"); // 2>nul for already existing folder
-    } else {
-        fclose(file);
-    }
-
 }

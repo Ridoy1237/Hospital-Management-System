@@ -36,29 +36,34 @@
  */
  void admin_delete_patient(void);
 
-/**
- * Admin patient menu with extended privileges.
- */
- void admin_patient_menu(void);
-
-/**
+ /**
  * Views all discharged (inactive) doctors.
  */
  void admin_view_discharged_doctors(void);
 
-/**
+ /**
  * Permanently deletes an inactive doctor from the system.
  */
  void admin_delete_doctor(void);
 
-/**
- * Admin doctor menu with extended privileges.
+ /**
+  * Admin patient management menu.
+  */
+  void admin_patient_menu(void);
+ 
+ /**
+ * Admin doctor management menu.
  */
  void admin_doctor_menu(void);
-
+ 
 /**
  * Main admin menu.
  */
  void admin_main_menu(void);
+
+/**
+ * Admin receptionist management menu.
+ */
+ void admin_receptionist_menu(void);
 
 #endif

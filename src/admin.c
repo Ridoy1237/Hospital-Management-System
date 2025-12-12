@@ -11,6 +11,7 @@
 #include "../include/admin.h"
 #include "../include/patient.h"
 #include "../include/doctor.h"
+#include "../include/receptionist.h"
 #include "../include/auth.h"
 #include "../include/utils.h"
 #include "../include/ui.h"
@@ -431,6 +432,50 @@ void admin_doctor_menu(void) {
     } while (choice != 7);
 }
 
+void admin_receptionist_menu(void) {
+    int choice;
+    
+    do {
+        ui_clear_screen();
+        ui_print_banner();
+        
+        const char* menu_items[] = {
+            "View Active Receptionists",
+            "View Inactive Receptionists",
+            "Deactivate Receptionist",
+            "Delete Receptionist Permanently",
+            "Back to Admin Menu",
+            ">> "
+        };
+        
+        ui_print_menu("Admin Receptionist Management", menu_items, 6, UI_SIZE);
+        choice = utils_get_int();
+        
+        switch (choice) {
+            case 1:
+                receptionist_view_all();
+                break;
+            case 2:
+                receptionist_view_discharged();
+                break;
+            case 3:
+                receptionist_discharge();
+                break;
+            case 4:
+                ui_print_info("Delete receptionist permanently - Coming soon!");
+                ui_pause();
+                break;
+            case 5:
+                ui_print_info("Returning to admin menu...");
+                ui_pause();
+                break;
+            default:
+                ui_print_error("Invalid choice!");
+                ui_pause();
+        }
+    } while (choice != 4);
+}
+
 /*
  *==========================================================================
  *                             MAIN ADMIN MENU
@@ -467,9 +512,7 @@ void admin_main_menu(void) {
                 admin_doctor_menu();
                 break;
             case 4:
-                // TODO: Add receptionist management menu
-                ui_print_info("Receptionist Management - Coming Soon!");
-                ui_pause();
+                admin_receptionist_menu();
                 break;
             case 5:
                 ui_print_info("Logging out...");

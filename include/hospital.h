@@ -20,8 +20,9 @@
 #define UI_SIZE         72
 
 #define MAX_PATIENTS    100
-#define MAX_DOCTORS     50
-#define MAX_USERS       20
+#define MAX_DOCTORS     20
+#define MAX_RECEPTIONISTS 20
+#define MAX_USERS       50
 #define MAX_APPOINTMENTS 200
 
 #define NAME_SIZE       50
@@ -56,6 +57,7 @@
 #define DATA_DIR            "data/"
 #define PATIENTS_FILE       "data/patients.dat"
 #define DOCTORS_FILE        "data/doctors.dat"
+#define RECEPTIONISTS_FILE  "data/receptionists.dat"
 #define USERS_FILE          "data/users.dat"
 #define APPOINTMENTS_FILE   "data/appointments.dat"
 
@@ -68,6 +70,9 @@
 #define REASON_SIZE     100
 #define TIME_SIZE       10
 #define DATE_SIZE       15
+
+
+#define VERSION "1.0.0"
 
 /*
  *==========================================================================
@@ -140,6 +145,15 @@ typedef struct {
     AppointmentStatus status;
 } Appointment;
 
+typedef struct {
+    int id;
+    char name[NAME_SIZE];
+    char phone[PHONE_SIZE];
+    char email[EMAIL_SIZE];
+    bool is_available;
+    bool is_active;
+} Receptionist;
+
 /*
  *==========================================================================
  *                          GLOBAL DECLARATIONS
@@ -149,17 +163,21 @@ typedef struct {
 /* Global declarations for data arrays */
 extern Patient patients[MAX_PATIENTS];
 extern Doctor doctors[MAX_DOCTORS];
+extern Receptionist receptionists[MAX_RECEPTIONISTS];
 extern User users[MAX_USERS];
 extern Appointment appointments[MAX_APPOINTMENTS];
 
-/* User count variables */
+/* Count variables */
 extern int patient_count;
 extern int doctor_count;
+extern int receptionist_count;
 extern int user_count;
 extern int patient_available;
 extern int patient_unavailable;
 extern int doctor_available;
 extern int doctor_unavailable;
+extern int receptionist_available;
+extern int receptionist_unavailable;
 extern int user_available;
 extern int user_unavailable;
 extern int appointment_count;
@@ -176,5 +194,20 @@ void hospital_init(void);
  * Display about information.
  */
 void show_about(void);
+
+/**
+ * Display help information.
+ */
+void print_help(const char* program_name);
+
+/**
+ * Display version information.
+ */
+void print_version(void);
+
+/**
+ * Ensure data directory exists.
+ */
+void ensure_data_dir(void);
 
 #endif

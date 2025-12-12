@@ -224,3 +224,38 @@ void ui_print_doctor(Doctor doctor, int index) {
     snprintf(title, sizeof(title), "Doctor %d", index + 1);
     ui_print_menu(title, items, 9, 72);
 }
+
+void ui_print_receptionist(Receptionist receptionist, int index) {
+
+    char id_line[70];
+    snprintf(id_line, sizeof(id_line), "Receptionist ID: %d", receptionist.id);
+
+    char name_line[70];
+    snprintf(name_line, sizeof(name_line), "Name: %s", receptionist.name);
+
+    char phone_line[70];
+    snprintf(phone_line, sizeof(phone_line), "Phone: %s", receptionist.phone);
+
+    char email_line[70];
+    snprintf(email_line, sizeof(email_line), "Email: %s", receptionist.email);
+
+    char avail_line[70];
+    snprintf(avail_line, sizeof(avail_line), "Available: %s", receptionist.is_available ? "Yes" : "No");
+
+    char status_line[70];
+    snprintf(status_line, sizeof(status_line), "Status: %s", receptionist.is_active ? "Active" : "Inactive");
+
+    const char* items[] = {
+        id_line,
+        name_line,
+        phone_line,
+        email_line,
+        avail_line,
+        status_line,
+        ""
+    };
+
+    char title[70];
+    snprintf(title, sizeof(title), "Receptionist %d", index + 1);
+    ui_print_menu(title, items, 7, 72);
+}

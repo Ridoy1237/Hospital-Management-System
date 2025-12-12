@@ -168,5 +168,13 @@
  * @param index The display index.
  */
  void ui_print_doctor(Doctor doctor, int index);
+
+/**
+ * Prints a receptionist in a box.
+ *
+ * @param receptionist The receptionist to print.
+ * @param index The display index.
+ */
+ void ui_print_receptionist(Receptionist receptionist, int index);
  
  #endif
