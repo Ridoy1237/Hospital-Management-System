@@ -63,6 +63,26 @@ To run the project, run the following command:
 ./hms.out
 ```
 
+## Testing
+
+### Windows
+
+To compile and run the utility tests:
+
+```bash
+gcc -o tests/utils_test.exe tests/utils_test.c src/utils.c
+.\tests\utils_test.exe
+```
+
+### Linux/Mac
+
+To compile and run the utility tests:
+
+```bash
+gcc -o tests/utils_test tests/utils_test.c src/utils.c
+./tests/utils_test
+```
+
 ## Project Structure
 
 ```
