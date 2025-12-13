@@ -54,7 +54,13 @@ void ui_print_info(const char *message) {
 
 
 void ui_print_banner(void){
-    unsigned char b = 219;  // █ Full block character
+    #ifdef _WIN32
+        unsigned char b = 219;  // █ Full block character (Windows)
+        #define PRINT_BLOCK(color) printf(color "%c%c" RESET, b, b)
+    #else
+        const char* b = "█";  // UTF-8 full block (Linux/Mac)
+        #define PRINT_BLOCK(color) printf(color "%s%s" RESET, b, b)
+    #endif
     
     char* hms = 
     "#####################################\n"
@@ -73,10 +79,10 @@ void ui_print_banner(void){
     
     while (*hms) {
         if (*hms == 'X') {
-            printf(BRIGHT_RED "%c%c" RESET, b, b);
+            PRINT_BLOCK(BRIGHT_RED);
         } 
         else if (*hms == '#') {
-            printf(SOFT_GRAY "%c%c" RESET, b, b);
+            PRINT_BLOCK(SOFT_GRAY);
         }
         else if (*hms == '\n') {
             printf("\n");
@@ -90,6 +96,8 @@ void ui_print_banner(void){
         hms++;
     }
     printf("\n");
+    
+    #undef PRINT_BLOCK
 }
 
 void ui_print_menu
@@ -99,16 +107,27 @@ void ui_print_menu
     int item_count, 
     int box_width
     ) {
-    unsigned char h = 205;  // ═
-    unsigned char v = 186;  // ║
-    unsigned char tl = 201; // ╔
-    unsigned char tr = 187; // ╗
-    unsigned char bl = 200; // ╚
-    unsigned char br = 188; // ╝
+    #ifdef _WIN32
+        unsigned char h = 205;  // ═
+        unsigned char v = 186;  // ║
+        unsigned char tl = 201; // ╔
+        unsigned char tr = 187; // ╗
+        unsigned char bl = 200; // ╚
+        unsigned char br = 188; // ╝
+        #define BOX_FMT "%c"
+    #else
+        const char* h = "═";
+        const char* v = "║";
+        const char* tl = "╔";
+        const char* tr = "╗";
+        const char* bl = "╚";
+        const char* br = "╝";
+        #define BOX_FMT "%s"
+    #endif
     
-    printf(BRIGHT_BLACK "%c", tl);
-    for (int i = 0; i < box_width; i++) printf("%c", h);
-    printf("%c" RESET "\n", tr);
+    printf(BRIGHT_BLACK BOX_FMT, tl);
+    for (int i = 0; i < box_width; i++) printf(BOX_FMT, h);
+    printf(BOX_FMT RESET "\n", tr);
 
     char title_upper[100];
     strncpy(title_upper, title, sizeof(title_upper) - 1);
@@ -117,29 +136,31 @@ void ui_print_menu
     
     int title_len = strlen(title_upper) + 4;
     int title_padding = (box_width - title_len) / 2;
-    printf(BRIGHT_BLACK "%c" RESET, v);
+    printf(BRIGHT_BLACK BOX_FMT RESET, v);
     for (int i = 0; i < title_padding; i++) printf(" ");
     ui_print_header(title_upper);
     for (int i = 0; i < box_width - title_padding - title_len; i++) printf(" ");
-    printf(BRIGHT_BLACK "%c" RESET "\n", v);
+    printf(BRIGHT_BLACK BOX_FMT RESET "\n", v);
     
-    printf(BRIGHT_BLACK "%c" RESET, v);
+    printf(BRIGHT_BLACK BOX_FMT RESET, v);
     for (int i = 0; i < box_width; i++) printf(" ");
-    printf(BRIGHT_BLACK "%c" RESET "\n", v);
+    printf(BRIGHT_BLACK BOX_FMT RESET "\n", v);
     
     for (int i = 0; i < item_count - 1; i++) {
         int item_len = strlen(items[i]);
-        printf(BRIGHT_BLACK "%c" RESET "  " SOFT_YELLOW BOLD "%d. %s" RESET, v, i + 1, items[i]);
+        printf(BRIGHT_BLACK BOX_FMT RESET "  " SOFT_YELLOW BOLD "%d. %s" RESET, v, i + 1, items[i]);
         for (int j = 0; j < box_width - item_len - 5; j++) printf(" ");
-        printf(BRIGHT_BLACK "%c" RESET "\n", v);
+        printf(BRIGHT_BLACK BOX_FMT RESET "\n", v);
     }
     
-    printf(BRIGHT_BLACK "%c" RESET, v);
+    printf(BRIGHT_BLACK BOX_FMT RESET, v);
     for (int i = 0; i < box_width; i++) printf(" ");
-    printf(BRIGHT_BLACK "%c" RESET "\n", v);
-    printf(BRIGHT_BLACK "%c", bl);
-    for (int i = 0; i < box_width; i++) printf("%c", h);
-    printf("%c" RESET "\n\n", br);
+    printf(BRIGHT_BLACK BOX_FMT RESET "\n", v);
+    printf(BRIGHT_BLACK BOX_FMT, bl);
+    for (int i = 0; i < box_width; i++) printf(BOX_FMT, h);
+    printf(BOX_FMT RESET "\n\n", br);
+    
+    #undef BOX_FMT
     
     printf(BOLD SOFT_GREEN "%s" RESET, items[item_count - 1]);
 }

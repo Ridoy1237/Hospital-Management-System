@@ -39,6 +39,18 @@ To run the project, run the following command:
 
 ### Linux/Mac
 
+First clone the project repository:
+
+```bash
+git clone https://github.com/AmiValoHoteChai/Hospital-Management-System.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd Hospital-Management-System
+```
+
 To build the project, run the following command:
 
 ```bash
