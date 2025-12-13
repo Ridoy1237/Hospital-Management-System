@@ -89,7 +89,7 @@ void auth_register_user(void) {
             "Admin",
             "Receptionist",
             "Doctor",
-            "Select ",
+            ">> ",
         };
         ui_print_menu("Register User", step1, 4, UI_SIZE);
         selected_role = utils_get_int();
@@ -406,10 +406,27 @@ void auth_role_login(UserRole required_role) {
     // Get role name for display
     const char* role_name;
     switch (required_role) {
-        case ROLE_ADMIN: role_name = "Admin"; break;
-        case ROLE_RECEPTIONIST: role_name = "Receptionist"; break;
-        case ROLE_DOCTOR: role_name = "Doctor"; break;
-        default: role_name = "User";
+        case ROLE_ADMIN: 
+            role_name = "Admin"; 
+            break;
+        case ROLE_RECEPTIONIST: 
+            if (receptionist_count == 0) {
+                ui_print_error("No receptionist account found!");
+                ui_pause();
+                return;
+            }
+            role_name = "Receptionist"; 
+            break;
+        case ROLE_DOCTOR: 
+            if (doctor_count == 0) {
+                ui_print_error("No doctor account found!");
+                ui_pause();
+                return;
+            }
+            role_name = "Doctor"; 
+            break;
+        default: 
+            role_name = "User";
     }
     
     char title[50];

@@ -76,9 +76,9 @@
  void doctor_update_using_id(void);
 
 /**
- * Discharges a doctor by ID (sets is_active to false).
+ * Deactivates a doctor by ID (sets is_active to false).
  */
- void doctor_discharge(void);
+ void doctor_deactivate_account(void);
 
 /**
  * Displays all inactive doctors in the system.

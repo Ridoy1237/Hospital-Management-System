@@ -560,7 +560,7 @@ void doctor_update_using_id() {
     }
 }
 
-void doctor_discharge() {
+void doctor_deactivate_account() {
     int id;
     while (1) {
         ui_clear_screen();
@@ -575,7 +575,7 @@ void doctor_discharge() {
         id = utils_get_int();
 
         if (id == 0) {
-            ui_print_info("User Pressed 0. \nCanceling deletion...");
+            ui_print_info("User Pressed 0. \nCanceling deactivation...");
             ui_pause();
             return;
         }
@@ -600,7 +600,7 @@ void doctor_discharge() {
     ui_print_doctor(doctors[index], index);
     
     const char* menu[] = {
-        "Confirm Discharge",
+        "Confirm Deactivation",
         "Cancel",
         ">> "
     };
@@ -610,12 +610,12 @@ void doctor_discharge() {
 
     if (input == 1) {
         doctors[index].is_active = false;
-        ui_print_success("Doctor discharged successfully!");
+        ui_print_success("Doctor deactivated successfully!");
         doctor_available--;
         doctor_unavailable++;
         ui_pause();
     } else {
-        ui_print_info("Discharge cancelled.");
+        ui_print_info("Deactivation cancelled.");
         ui_pause();
     }
 }

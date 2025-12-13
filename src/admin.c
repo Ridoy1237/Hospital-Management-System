@@ -415,7 +415,7 @@ void admin_doctor_menu(void) {
                 doctor_save_to_file();
                 break;
             case 5:
-                doctor_discharge();
+                doctor_deactivate_account();
                 doctor_save_to_file();
                 break;
             case 6:
